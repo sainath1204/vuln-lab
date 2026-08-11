@@ -11,7 +11,7 @@ def run():
 
 @app.route("/load")
 def load():
-    return yaml.load(request.args.get("data"))
+    return yaml.safe_load(request.args.get("data"))
 
 @app.route("/deser")
 def deser():
