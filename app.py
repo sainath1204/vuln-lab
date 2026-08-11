@@ -1,6 +1,5 @@
 import os
 import yaml
-import pickle
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -15,4 +14,7 @@ def load():
 
 @app.route("/deser")
 def deser():
-    return pickle.loads(request.data)
+    data = request.get_json()
+    if not isinstance(data, dict):
+        return {"error": "Expected a JSON object"}, 400
+    return data
