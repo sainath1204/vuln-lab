@@ -1,7 +1,14 @@
 const crypto = require("crypto")
 
 function hashPassword(pw) {
-  return crypto.createHash("md5").update(pw).digest("hex")
+  const salt = crypto.randomBytes(16)
+  const hash = crypto.scryptSync(pw, salt, 64, {
+    N: 131072,
+    r: 8,
+    p: 1,
+    maxmem: 256 * 1024 * 1024,
+  })
+  return `scrypt$131072$8$1$${salt.toString("hex")}$${hash.toString("hex")}`
 }
 
 const KEY = "0123456789abcdef"
