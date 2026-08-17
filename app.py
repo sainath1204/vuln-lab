@@ -1,7 +1,6 @@
 import os
 import yaml
-import pickle
-from flask import Flask, request
+from flask import Flask, abort, jsonify, request
 
 app = Flask(__name__)
 
@@ -15,4 +14,7 @@ def load():
 
 @app.route("/deser")
 def deser():
-    return pickle.loads(request.data)
+    data = request.get_json()
+    if not isinstance(data, dict):
+        abort(400)
+    return jsonify(data)
